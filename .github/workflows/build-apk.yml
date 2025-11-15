@@ -57,11 +57,23 @@ jobs:
         run: |
           yes | sdkmanager --licenses || true
 
-      - name: Build APK (release)
+      - name: Build APK (release) - capture logs
         run: |
-          flutter build apk --release
+          set -o pipefail
+          mkdir -p build_logs
+          echo "Starting flutter build: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          # Capture full stdout/stderr to a log file so we can inspect failures
+          flutter build apk --release 2>&1 | tee build_logs/flutter_build.log || true
 
-      - name: Upload release APK
+      - name: Upload build logs (always)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-logs
+          path: build_logs/**
+
+      - name: Upload release APK (when present)
+        if: success() && always()
         uses: actions/upload-artifact@v4
         with:
           name: app-release-apk
