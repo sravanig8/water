@@ -14,10 +14,33 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Runner info (debug)
+        run: |
+          echo "=== Runner info ==="
+          uname -a || true
+          lsb_release -a || true
+          java -version || true
+          echo "JAVA_HOME=$JAVA_HOME"
+          if command -v sdkmanager >/dev/null 2>&1; then sdkmanager --version || true; else echo "sdkmanager not found"; fi
+          df -h || true
+          echo "--- PATH ---"
+          echo $PATH
+
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
           flutter-version: 'stable'
+          cache: true
+
+      - name: Flutter diagnostics (debug)
+        run: |
+          set -x
+          which flutter || true
+          flutter --version || true
+          flutter doctor -v || true
+          echo "--- flutter config ---"
+          flutter config || true
+          set +x
 
       - name: Install dependencies
         run: |
