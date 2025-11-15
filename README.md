@@ -1,3 +1,19 @@
+# Water Reminder
+
+This is the Water Reminder Flutter app. Use this repository to build the Android APK via GitHub Actions or locally.
+
+How to push and build (short):
+
+1. Create a new repository on GitHub (do not initialize with README).
+2. From PowerShell:
+
+```powershell
+cd C:\Users\hp\water_local_repo
+git remote add origin https://github.com/<your-username>/<repo>.git
+git push -u origin main
+```
+
+3. On GitHub, open Actions → select "Build Release APK" and download the artifact after the run completes.
 # water
 
 A new Flutter project.
